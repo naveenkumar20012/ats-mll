@@ -1,0 +1,1 @@
+java -jar /home/abhishek.shingadiya/ats-ml/main_api/tika-server.jar

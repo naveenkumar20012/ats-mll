@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+aws s3 cp s3://ats-env-variables/constants.env ./constants.env
+source constants.env
+gunicorn -k uvicorn.workers.UvicornWorker main:app -w 2 --max-requests 100 --capture-output --enable-stdio-inheritance --timeout 300 --preload -b 0.0.0.0:8000 --access-logfile /gunicorn-access.log --error-logfile /gunicorn-error.log

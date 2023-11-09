@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  main_api:
+    build:
+      context: .
+      dockerfile: ./compose/staging/fastapi/Dockerfile
+    image: main_api
+    restart: on-failure
+    ports:
+      - "0.0.0.0:8000:8000"
+
+  redis:
+    image: redis:7-alpine
+
+  tika:
+    image: apache/tika:1.24
+    restart: on-failure
+    ports:
+      - "9998:9998"
+
+  name_api:
+    build:
+      context: .
+      dockerfile: ./name_api/Dockerfile
+    image: name_api
+    restart: on-failure
+    ports:
+      - "8051:8051"
+
+  ner_api:
+    build:
+      context: .
+      dockerfile: ./ner_api/Dockerfile
+    image: ner_api
+    restart: on-failure
+    ports:
+      - "8052:8052"
+
+  jd_api:
+    build:
+      context: .
+      dockerfile: ./jd_api/Dockerfile
+    image: jd_api
+    restart: on-failure
+    ports:
+      - "8053:8053"
+
+  skill_api:
+    build:
+      context: .
+      dockerfile: ./skill_api/Dockerfile
+    image: skill_api
+    restart: on-failure
+    ports:
+      - "8054:8054"
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./compose/staging/fastapi/celery/worker/Dockerfile
+    image: rp_celery_worker
+    restart: on-failure
+
+  flower:
+    build:
+      context: .
+      dockerfile: ./compose/staging/fastapi/celery/flower/Dockerfile
+    image: rp_celery_flower
+    restart: on-failure
+    ports:
+      - "5557:5555"
+
+
+

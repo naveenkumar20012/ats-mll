@@ -1,0 +1,1 @@
+['contractual', 'parttime', 'remote', 'commission', 'contract', 'workfromhome', 'regular', 'internship', 'permanent', 'temporarilyremote', 'temporary', 'fulltimeposition', 'fulltime', 'temporarycontractual']

@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve MyApp
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/abhishek.shingadiya/ats-ml/main_api
+Environment="PATH=/home/abhishek.shingadiya/fastapi-venv/bin:/usr/bin"
+ExecStart=/home/abhishek.shingadiya/fastapi-venv/bin/gunicorn -w 8 -k uvicorn.workers.UvicornWorker main:app --access-logfile /var/log/access_file_g.log --error-logfile /var/log/error_file_g.log --capture-output --enable-stdio-inheritance --timeout 300 --preload
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

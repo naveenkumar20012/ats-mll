@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+aws s3 cp s3://ats-env-variables/constants.env ./constants.env
+source constants.env
+worker_ready() {
+  celery -A celery_tasks.tasks.celery inspect ping
+}
+
+until worker_ready; do
+  echo >&2 'Celery workers not available'
+  sleep 1
+done
+echo >&2 'Celery workers is available'
+
+
+
+celery flower \
+  --app=celery_tasks.tasks.celery \
+  --broker="${CELERY_BROKER_URL}" \
+  --basic_auth=admin:adminadminadmin -l info

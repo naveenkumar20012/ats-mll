@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+aws s3 cp s3://ats-env-variables/constants.env ./constants.env
+source constants.env
+exec celery -A celery_tasks.tasks.celery worker -l INFO
